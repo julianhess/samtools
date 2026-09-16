@@ -79,6 +79,7 @@ typedef struct {
     int dc;
     int move_umi;
     char umi_sep;
+    int ignore_orientation;
 } md_param_t;
 
 typedef struct {
@@ -482,6 +483,10 @@ static int make_pair_key(md_param_t *param, key_data_t *key, bam1_t *bam, int rg
             other_coord = unclipped_other_end(bam->core.mpos, cig, 1);
         }
     }
+
+    // do not consider both fragments from the same duplex to be duplicates.
+    // force FF/RR -> FF, and FR/RF -> FR
+    if (param->ignore_orientation) orientation = (orientation == O_FF || orientation == O_RR) ? O_FF : O_FR;
 
     if (!leftmost)
         left_read = R_RI;
@@ -2517,7 +2522,7 @@ int bam_markdup(int argc, char **argv) {
     char *regex = NULL, *bc_regex = NULL;
     char *regex_order = "txy";
     md_param_t param = {NULL, NULL, NULL, 0, 300, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-                        1, NULL, NULL, NULL, NULL, 0, 0, 0, NULL, NULL, 0, 0, 0, 0, ':'};
+                        1, NULL, NULL, NULL, NULL, 0, 0, 0, NULL, NULL, 0, 0, 0, 0, ':', 0};
 
     static const struct option lopts[] = {
         SAM_OPT_GLOBAL_OPTIONS('-', 0, 'O', 0, 0, '@'),
@@ -2535,6 +2540,7 @@ int bam_markdup(int argc, char **argv) {
         {"duplicate-count", no_argument, NULL, 1011},
         {"move-umi-to-tag", no_argument, NULL, 1012},
         {"umi-separator", required_argument, NULL, 1013},
+        {"ignore-orientation", no_argument, NULL, 1014},
         {NULL, 0, NULL, 0}
     };
 
@@ -2574,6 +2580,7 @@ int bam_markdup(int argc, char **argv) {
             case 1011: param.dc = 1; break;
             case 1012: param.move_umi = 1; break;
             case 1013: param.umi_sep = optarg[0]; break;
+            case 1014: param.ignore_orientation = 1; break;
             default: if (parse_sam_global_opt(c, optarg, lopts, &ga) == 0) break;
             /* else fall-through */
             case '?': return markdup_usage();
