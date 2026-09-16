@@ -2473,34 +2473,36 @@ static int markdup_usage(void) {
     fprintf(stderr, "\n");
     fprintf(stderr, "Usage:  samtools markdup <input.bam> <output.bam>\n\n");
     fprintf(stderr, "Option: \n");
-    fprintf(stderr, "  -r                 Remove duplicate reads\n");
-    fprintf(stderr, "  -l INT             Max read length (default 300 bases)\n");
-    fprintf(stderr, "  -S                 Mark supplementary alignments of duplicates as duplicates (slower).\n");
-    fprintf(stderr, "  -s                 Report stats.\n");
-    fprintf(stderr, "  -f NAME            Write stats to named file.  Implies -s.\n");
-    fprintf(stderr, "  --json             Output stats in JSON.  Also implies -s\n");
-    fprintf(stderr, "  -T PREFIX          Write temporary files to PREFIX.samtools.nnnn.nnnn.tmp.\n");
-    fprintf(stderr, "  -d INT             Optical distance (if set, marks with dt tag)\n");
-    fprintf(stderr, "  -c                 Clear previous duplicate settings and tags.\n");
-    fprintf(stderr, "  -m --mode TYPE     Duplicate decision method for paired reads.\n"
-                    "                     TYPE = t measure positions based on template start/end (default).\n"
-                    "                            s measure positions based on sequence start.\n");
-    fprintf(stderr, "  -u                 Output uncompressed data\n");
-    fprintf(stderr, "  --include-fails    Include quality check failed reads.\n");
-    fprintf(stderr, "  --no-PG            Do not add a PG line\n");
-    fprintf(stderr, "  --no-multi-dup     Reduced duplicates of duplicates checking.\n");
-    fprintf(stderr, "  --read-coords STR  Regex for coords from read name.\n");
-    fprintf(stderr, "  --coords-order STR Order of regex elements. txy (default).  With t being a part of\n"
-                    "                     the read names that must be equal and x/y being coordinates.\n");
-    fprintf(stderr, "  --barcode-tag STR  Use barcode a tag that duplicates much match.\n");
-    fprintf(stderr, "  --barcode-name     Use the UMI/barcode in the read name (eighth colon-delimited part).\n");
-    fprintf(stderr, "  --barcode-rgx STR  Regex for barcode in the readname (alternative to --barcode-name).\n");
-    fprintf(stderr, "  --move-umi-to-tag  Move UMI from read name to RX tag (use with --barcode-name/--barcode-rgx).\n");
-    fprintf(stderr, "  --umi-separator CHAR   Separator for UMI (default ':').\n");
-    fprintf(stderr, "  --use-read-groups  Use the read group tags in duplicate matching.\n");
-    fprintf(stderr, "  -t                 Mark primary duplicates with the name of the original in a \'do\' tag."
+    fprintf(stderr, "  -r                    Remove duplicate reads\n");
+    fprintf(stderr, "  -l INT                Max read length (default 300 bases)\n");
+    fprintf(stderr, "  -S                    Mark supplementary alignments of duplicates as duplicates (slower).\n");
+    fprintf(stderr, "  -s                    Report stats.\n");
+    fprintf(stderr, "  -f NAME               Write stats to named file.  Implies -s.\n");
+    fprintf(stderr, "  --json                Output stats in JSON.  Also implies -s\n");
+    fprintf(stderr, "  -T PREFIX             Write temporary files to PREFIX.samtools.nnnn.nnnn.tmp.\n");
+    fprintf(stderr, "  -d INT                Optical distance (if set, marks with dt tag)\n");
+    fprintf(stderr, "  -c                    Clear previous duplicate settings and tags.\n");
+    fprintf(stderr, "  -m --mode TYPE        Duplicate decision method for paired reads.\n"
+                    "                        TYPE = t measure positions based on template start/end (default).\n"
+                    "                               s measure positions based on sequence start.\n");
+    fprintf(stderr, "  -u                    Output uncompressed data\n");
+    fprintf(stderr, "  --include-fails       Include quality check failed reads.\n");
+    fprintf(stderr, "  --no-PG               Do not add a PG line\n");
+    fprintf(stderr, "  --no-multi-dup        Reduced duplicates of duplicates checking.\n");
+    fprintf(stderr, "  --read-coords STR     Regex for coords from read name.\n");
+    fprintf(stderr, "  --coords-order STR    Order of regex elements. txy (default).  With t being a part of\n"
+                    "                        the read names that must be equal and x/y being coordinates.\n");
+    fprintf(stderr, "  --barcode-tag STR     Use barcode a tag that duplicates much match.\n");
+    fprintf(stderr, "  --barcode-name        Use the UMI/barcode in the read name (eighth colon-delimited part).\n");
+    fprintf(stderr, "  --barcode-rgx STR     Regex for barcode in the readname (alternative to --barcode-name).\n");
+    fprintf(stderr, "  --move-umi-to-tag     Move UMI from read name to RX tag (use with --barcode-name/--barcode-rgx).\n");
+    fprintf(stderr, "  --umi-separator CHAR  Separator for UMI (default ':').\n");
+    fprintf(stderr, "  --use-read-groups     Use the read group tags in duplicate matching.\n");
+    fprintf(stderr, "  -t                    Mark primary duplicates with the name of the original in a \'do\' tag."
                                         " Mainly for information and debugging.\n");
-    fprintf(stderr, "  --duplicate-count  Record the original primary read duplication count(include itself) in a \'dc\' tag.\n");
+    fprintf(stderr, "  --duplicate-count     Record the original primary read duplication count(include itself) in a \'dc\' tag.\n");
+    fprintf(stderr, "  --ignore-orientation  Ignore read pair orientation when comparing duplicates, in order to avoid counting\n"
+                    "                        both fragments from the same duplex as duplicates.");
 
     sam_global_opt_help(stderr, "-.O..@..");
 
